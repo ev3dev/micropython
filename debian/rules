@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+#export DH_VERBOSE=1
+
+%:
+	dh $@ -Dunix
+
+override_dh_auto_build:
+	dh_auto_build -- axtls
+	dh_auto_build
+
+override_dh_auto_clean:
+	dh_auto_clean
+	make -C mpy-cross clean

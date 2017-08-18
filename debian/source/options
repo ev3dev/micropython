@@ -1,0 +1,8 @@
+tar-ignore=.*
+tar-ignore=lib/libffi
+tar-ignore=bare-arm
+tar-ignore=cc3200
+tar-ignore=esp8266
+tar-ignore=pic16bit
+tar-ignore=teensy
+tar-ignore=zephyr
