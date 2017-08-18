@@ -191,9 +191,9 @@ test: $(PROG) ../tests/run-tests
 	$(eval DIRNAME=$(notdir $(CURDIR)))
 	cd ../tests && MICROPY_MICROPYTHON=../$(DIRNAME)/$(PROG) ./run-tests
 
-# install micropython in /usr/local/bin
+# install micropython in /usr/bin
 TARGET = micropython
-PREFIX = $(DESTDIR)/usr/local
+PREFIX = $(DESTDIR)/usr
 BINDIR = $(PREFIX)/bin
 
 install: micropython
