@@ -1,0 +1,3 @@
+mpy-cross/mpy-cross /usr/bin/
+tools/mpy_cross_all.py /usr/share/mpy-cross/
+tools/mpy-tool.py /usr/share/mpy-cross/
