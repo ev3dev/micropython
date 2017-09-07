@@ -1,3 +1,10 @@
+micropython (1.9.1ev3dev2) testing; urgency=medium
+
+  * Add upip command
+  * Add mpy-cross package
+
+ -- David Lechner <david@lechnology.com>  Thu, 07 Sep 2017 10:04:04 -0500
+
 micropython (1.9.1ev3dev1) testing; urgency=medium
 
   * Initial release
