@@ -3,7 +3,7 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@ -Dunix --with=python3
+	dh $@ -Dunix
 
 override_dh_auto_build:
 	dh_auto_build -- axtls
