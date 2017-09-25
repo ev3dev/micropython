@@ -1,3 +1,10 @@
+micropython (1.9.2ev3dev1) testing; urgency=medium
+
+  * Merge upstream version 1.9.2.
+  * py: add config option to print warnings/errors to stderr
+
+ -- David Lechner <david@lechnology.com>  Mon, 25 Sep 2017 12:38:52 -0500
+
 micropython (1.9.1ev3dev3) testing; urgency=medium
 
   * remove extra mpy scripts
