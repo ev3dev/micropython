@@ -1,3 +1,9 @@
+micropython (1.9.4ev3dev1) stable; urgency=medium
+
+  * Merge upstream version 1.9.4
+
+ -- David Lechner <david@lechnology.com>  Tue, 22 May 2018 15:18:51 -0500
+
 micropython (1.9.2ev3dev1) testing; urgency=medium
 
   * Merge upstream version 1.9.2.
