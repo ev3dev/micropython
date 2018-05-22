@@ -28,17 +28,9 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "py/nlr.h"
 #include "py/objstr.h"
 #include "py/stream.h"
 #include "py/runtime.h"
-
-#if MICROPY_STREAMS_NON_BLOCK
-#include <errno.h>
-#if defined(__MINGW32__) && !defined(__MINGW64_VERSION_MAJOR)
-#define EWOULDBLOCK 140
-#endif
-#endif
 
 // This file defines generic Python stream read/write methods which
 // dispatch to the underlying stream interface of an object.
@@ -106,13 +98,6 @@ const mp_stream_p_t *mp_get_stream_raise(mp_obj_t self_in, int flags) {
     return stream_p;
 }
 
-mp_obj_t mp_stream_close(mp_obj_t stream) {
-    // TODO: Still consider using ioctl for close
-    mp_obj_t dest[2];
-    mp_load_method(stream, MP_QSTR_close, dest);
-    return mp_call_method_n_kw(0, 0, dest);
-}
-
 STATIC mp_obj_t stream_read_generic(size_t n_args, const mp_obj_t *args, byte flags) {
     const mp_stream_p_t *stream_p = mp_get_stream_raise(args[0], MP_STREAM_OP_READ);
 
@@ -141,9 +126,6 @@ STATIC mp_obj_t stream_read_generic(size_t n_args, const mp_obj_t *args, byte fl
         mp_uint_t last_buf_offset = 0;
         while (more_bytes > 0) {
             char *p = vstr_add_len(&vstr, more_bytes);
-            if (p == NULL) {
-                mp_raise_msg(&mp_type_MemoryError, "out of memory");
-            }
             int error;
             mp_uint_t out_sz = mp_stream_read_exactly(args[0], p, more_bytes, &error);
             if (error != 0) {
@@ -380,10 +362,6 @@ STATIC mp_obj_t stream_unbuffered_readline(size_t n_args, const mp_obj_t *args) 
 
     while (max_size == -1 || max_size-- != 0) {
         char *p = vstr_add_len(&vstr, 1);
-        if (p == NULL) {
-            mp_raise_msg(&mp_type_MemoryError, "out of memory");
-        }
-
         int error;
         mp_uint_t out_sz = stream_p->read(args[0], p, 1, &error);
         if (out_sz == MP_STREAM_ERROR) {
@@ -441,6 +419,17 @@ mp_obj_t mp_stream_unbuffered_iter(mp_obj_t self) {
     }
     return MP_OBJ_STOP_ITERATION;
 }
+
+mp_obj_t mp_stream_close(mp_obj_t stream) {
+    const mp_stream_p_t *stream_p = mp_get_stream_raise(stream, MP_STREAM_OP_IOCTL);
+    int error;
+    mp_uint_t res = stream_p->ioctl(stream, MP_STREAM_CLOSE, 0, &error);
+    if (res == MP_STREAM_ERROR) {
+        mp_raise_OSError(error);
+    }
+    return mp_const_none;
+}
+MP_DEFINE_CONST_FUN_OBJ_1(mp_stream_close_obj, mp_stream_close);
 
 STATIC mp_obj_t stream_seek(size_t n_args, const mp_obj_t *args) {
     const mp_stream_p_t *stream_p = mp_get_stream_raise(args[0], MP_STREAM_OP_IOCTL);
