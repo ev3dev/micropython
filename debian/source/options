@@ -1,8 +1,11 @@
 tar-ignore=.*
 tar-ignore=lib/libffi
-tar-ignore=bare-arm
-tar-ignore=cc3200
-tar-ignore=esp8266
-tar-ignore=pic16bit
-tar-ignore=teensy
-tar-ignore=zephyr
+tar-ignore=ports/bare-arm
+tar-ignore=ports/cc3200
+tar-ignore=ports/esp32
+tar-ignore=ports/esp8266
+tar-ignore=ports/pic16bit
+tar-ignore=ports/qemu-arm
+tar-ignore=ports/teensy
+tar-ignore=ports/windows
+tar-ignore=ports/zephyr
